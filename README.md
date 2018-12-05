@@ -1,1 +1,1 @@
-# the-daily-quote
+# The Daily Quote
