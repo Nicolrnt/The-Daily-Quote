@@ -4,9 +4,23 @@
 # File   : main.py
 #
 
+# Imports
+from apscheduler.scheduler import Scheduler
+import webbrowser
 import requests
+import time
 import json
+import os
 
+# Quote Config
+hour = 13
+minute = 45
+
+# Start the scheduler
+sched = Scheduler()
+sched.start()
+
+# Update Index
 def updateIndex(quote, author):
 	template = open("./template/template.html", "r")
 	index = open("./template/index.html", "w")
@@ -16,6 +30,7 @@ def updateIndex(quote, author):
 	code = code.replace("{author}", author)
 	index.write(code)
 
+# Update Style
 def updateStyle(background):
 	template = open("./template/assets/css/template.css", "r")
 	style = open("./template/assets/css/main.css", "w")
@@ -24,7 +39,8 @@ def updateStyle(background):
 	code = code.replace("{background}", background)
 	style.write(code)
 
-def main():
+# Create Quote
+def createQuote():
 	url = "http://quotes.rest/qod.json?category=inspire"
 	ret = """{
 		"success": {
@@ -53,19 +69,30 @@ def main():
 	}"""
 
 	# Make Request
-	# ret = requests.get(url)
+	ret = requests.get(url)
+	print(ret.text)
 	# Get Variables
-	obj = json.loads(ret)
+	obj = json.loads(ret.text)
 	quote = obj["contents"]["quotes"][0]["quote"]
 	author = obj["contents"]["quotes"][0]["author"]
-	date = obj["contents"]["quotes"][0]["date"]
 	background = obj["contents"]["quotes"][0]["background"]
 	# Update Website
 	updateIndex(quote, author)
 	updateStyle(background)
+	# Open Window
+	webbrowser.open("file://" + os.path.realpath("./template/index.html"))
+
+# Main
+def main():
+	#createQuote()
+	#sched.add_cron_job(createQuote, hour=hour, minute=minute)
+	#sched.add_cron_job(createQuote, second=0)
+	while (True):
+		time.sleep(1)
 
 # Launcher
 if __name__ == "__main__":
 	main()
 
 # pip3 install requests
+# pip install apscheduler==2.1.2
