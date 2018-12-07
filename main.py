@@ -13,8 +13,8 @@ import json
 import os
 
 # Quote Config
-hour = 13
-minute = 45
+hour = 9
+minute = 20
 
 # Start the scheduler
 sched = Scheduler()
@@ -42,31 +42,6 @@ def updateStyle(background):
 # Create Quote
 def createQuote():
 	url = "http://quotes.rest/qod.json?category=inspire"
-	ret = """{
-		"success": {
-			"total": 1
-		},
-		"contents": {
-			"quotes": [
-				{
-					"quote": "If you get up in the morning and think the future is going to be better, it is a bright day. Otherwise, it's not.",
-					"length": "113",
-					"author": "Elon Musk",
-					"tags": [
-						"inspire",
-						"positive-thinking"
-					],
-					"category": "inspire",
-					"date": "2018-12-05",
-					"permalink": "https://theysaidso.com/quote/mbtVO88S_KNdB4gBMyXaUgeF/elon-musk-if-you-get-up-in-the-morning-and-think-the-future-is-going-to-be-bette",
-					"title": "Inspiring Quote of the day",
-					"background": "https://theysaidso.com/img/bgs/man_on_the_mountain.jpg",
-					"id": "mbtVO88S_KNdB4gBMyXaUgeF"
-				}
-			],
-			"copyright": "2017-19 theysaidso.com"
-		}
-	}"""
 
 	# Make Request
 	ret = requests.get(url)
@@ -84,15 +59,10 @@ def createQuote():
 
 # Main
 def main():
-	#createQuote()
-	#sched.add_cron_job(createQuote, hour=hour, minute=minute)
-	#sched.add_cron_job(createQuote, second=0)
+	sched.add_cron_job(createQuote, hour=hour, minute=minute)
 	while (True):
 		time.sleep(1)
 
 # Launcher
 if __name__ == "__main__":
 	main()
-
-# pip3 install requests
-# pip install apscheduler==2.1.2
