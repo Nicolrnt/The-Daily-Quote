@@ -14,3 +14,6 @@ For more info,
 checkout the Medium's article I wrote about it
 
 https://medium.com/@nicolas_laurent/the-daily-quote-a1b633e656d2
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
